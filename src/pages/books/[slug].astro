@@ -1,0 +1,29 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('books', ({ data }) => !data.draft);
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<BaseLayout title={entry.data.title} description={entry.data.seoDescription ?? entry.data.summary} image={entry.data.coverImage}>
+  <article class="section-block">
+    <div class="container narrow prose-wrap prose stack-md">
+      <header class="stack-sm">
+        <h1>{entry.data.title}</h1>
+        {entry.data.subtitle && <p class="lede">{entry.data.subtitle}</p>}
+        <p class="meta">Status: {entry.data.status}</p>
+      </header>
+      <Content />
+      <div class="button-row">
+        {entry.data.purchaseUrl && <a class="button" href={entry.data.purchaseUrl}>Purchase</a>}
+        {entry.data.sampleUrl && <a class="button button-secondary" href={entry.data.sampleUrl}>Read a sample</a>}
+      </div>
+    </div>
+  </article>
+</BaseLayout>

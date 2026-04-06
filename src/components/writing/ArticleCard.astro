@@ -1,0 +1,13 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props {
+  entry: CollectionEntry<'writing'>;
+}
+const { entry } = Astro.props;
+---
+
+<article class="card stack-sm">
+  <p class="meta">{entry.data.publishDate.toLocaleDateString()}</p>
+  <h3><a href={`/writing/${entry.id}/`}>{entry.data.title}</a></h3>
+  <p>{entry.data.excerpt}</p>
+</article>

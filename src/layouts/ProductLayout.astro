@@ -1,0 +1,33 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import ProductFeatureList from '@/components/products/ProductFeatureList.astro';
+import ProductCTA from '@/components/products/ProductCTA.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  summary?: string;
+  features?: string[];
+  ctaLabel?: string;
+  ctaUrl?: string;
+  image?: string;
+}
+
+const { title, description, summary, features = [], ctaLabel, ctaUrl, image } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} image={image}>
+  <article class="section-block">
+    <div class="container narrow stack-lg">
+      <header class="stack-sm">
+        <h1>{title}</h1>
+        {summary && <p class="lede">{summary}</p>}
+        <ProductCTA label={ctaLabel} href={ctaUrl} />
+      </header>
+      <ProductFeatureList features={features} />
+      <div class="prose-wrap prose">
+        <slot />
+      </div>
+    </div>
+  </article>
+</BaseLayout>

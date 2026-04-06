@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Gregory Collins monogram">
+  <rect width="128" height="128" rx="24" fill="#111827"/>
+  <path d="M38 34h38v10H48v18h24v10H48v22h30v10H38z" fill="#f9fafb"/>
+  <path d="M92 34h-8c-12 0-22 10-22 22v16c0 12 10 22 22 22h8V84h-8c-7 0-12-5-12-12V56c0-7 5-12 12-12h8z" fill="#60a5fa"/>
+</svg>

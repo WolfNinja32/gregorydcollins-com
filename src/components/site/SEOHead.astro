@@ -1,0 +1,39 @@
+---
+import { SITE } from '@/lib/site';
+import { absoluteUrl } from '@/lib/urls';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  image?: string;
+}
+
+const {
+  title = SITE.title,
+  description = SITE.description,
+  canonical = Astro.url.pathname,
+  image = '/social/og-default.svg',
+} = Astro.props;
+
+const fullTitle = title === SITE.title ? title : `${title} | ${SITE.title}`;
+const canonicalUrl = absoluteUrl(canonical);
+const imageUrl = absoluteUrl(image);
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalUrl} />
+
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={imageUrl} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />

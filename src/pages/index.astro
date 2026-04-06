@@ -1,0 +1,90 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import CardGrid from '@/components/content/CardGrid.astro';
+import CTA from '@/components/content/CTA.astro';
+import ProductCard from '@/components/products/ProductCard.astro';
+import ArticleCard from '@/components/writing/ArticleCard.astro';
+import PhotoGrid from '@/components/photography/PhotoGrid.astro';
+import { getPage, getProductsByLine, getPublishedPhotosets, getPublishedWriting } from '@/lib/content';
+
+const page = await getPage('home');
+if (!page) throw new Error('Missing home page content entry.');
+const { Content } = await render(page);
+const writing = (await getPublishedWriting()).slice(0, 3);
+const labProducts = (await getProductsByLine('lab-in-a-box')).slice(0, 2);
+const photosets = (await getPublishedPhotosets()).slice(0, 2);
+---
+
+<BaseLayout
+  title={page.data.seoTitle ?? page.data.title}
+  description={page.data.seoDescription ?? page.data.description}
+  image={page.data.ogImage}
+>
+  <section class="hero section-block">
+    <div class="container narrow stack-md">
+      <h1>{page.data.heroTitle ?? page.data.title}</h1>
+      {page.data.heroSummary && <p class="lede">{page.data.heroSummary}</p>}
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="container prose-wrap prose">
+      <Content />
+    </div>
+  </section>
+
+  <section class="section-block section-alt">
+    <div class="container stack-md">
+      <h2>Main areas of work</h2>
+      <CardGrid>
+        <a class="card" href="/photography/"><h3>Photography</h3><p>Selected work, stories, and visual projects.</p></a>
+        <a class="card" href="/books/"><h3>Books</h3><p>Current and future books, essays, and related material.</p></a>
+        <a class="card" href="/lab-in-a-box/"><h3>Lab-in-a-Box</h3><p>Practical digital products and systems.</p></a>
+        <a class="card" href="/directorybase/"><h3>DirectoryBase</h3><p>Directory structures, ideas, and implementation patterns.</p></a>
+        <a class="card" href="/writing/"><h3>Writing</h3><p>Essays, notes, and working ideas in public.</p></a>
+        <a class="card" href="/about/"><h3>About</h3><p>Background, credibility, and the thread connecting the work.</p></a>
+      </CardGrid>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="container stack-md">
+      <div class="split-heading">
+        <h2>Featured writing</h2>
+        <a href="/writing/">See all writing</a>
+      </div>
+      <CardGrid>
+        {writing.map((entry) => <ArticleCard entry={entry} />)}
+      </CardGrid>
+    </div>
+  </section>
+
+  <section class="section-block section-alt">
+    <div class="container stack-md">
+      <div class="split-heading">
+        <h2>Featured products</h2>
+        <a href="/lab-in-a-box/">See Lab-in-a-Box</a>
+      </div>
+      <CardGrid>
+        {labProducts.map((entry) => <ProductCard entry={entry} />)}
+      </CardGrid>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="container stack-md">
+      <div class="split-heading">
+        <h2>Featured photography</h2>
+        <a href="/photography/">See photography</a>
+      </div>
+      <PhotoGrid entries={photosets} />
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="container narrow">
+      <CTA title="Start a conversation" body="The contact section is intentionally simple in v1. Reach out for photography, product, or consulting conversations." href="/contact/" label="Contact Gregory" />
+    </div>
+  </section>
+</BaseLayout>

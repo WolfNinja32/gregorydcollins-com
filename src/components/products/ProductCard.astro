@@ -1,0 +1,23 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props {
+  entry: CollectionEntry<'products'>;
+}
+const { entry } = Astro.props;
+const href = entry.data.productLine === 'lab-in-a-box'
+  ? `/lab-in-a-box/${entry.id}/`
+  : entry.data.productLine === 'directorybase'
+    ? `/directorybase/${entry.id}/`
+    : `/products/${entry.id}/`;
+---
+
+<article class="card stack-sm">
+  <p class="eyebrow">{entry.data.productLine}</p>
+  <h3><a href={href}>{entry.data.title}</a></h3>
+  <p>{entry.data.summary}</p>
+  {entry.data.features.length > 0 && (
+    <ul class="compact-list">
+      {entry.data.features.slice(0, 3).map((feature) => <li>{feature}</li>)}
+    </ul>
+  )}
+</article>

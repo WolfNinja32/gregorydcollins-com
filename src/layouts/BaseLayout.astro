@@ -1,0 +1,31 @@
+---
+import Header from '@/components/site/Header.astro';
+import Footer from '@/components/site/Footer.astro';
+import SEOHead from '@/components/site/SEOHead.astro';
+import '@/styles/tokens.css';
+import '@/styles/global.css';
+import '@/styles/prose.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  image?: string;
+}
+
+const { title, description, canonical, image } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <SEOHead title={title} description={description} canonical={canonical} image={image} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,26 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import PhotoStoryHeader from '@/components/photography/PhotoStoryHeader.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  summary?: string;
+  location?: string;
+  subject?: string;
+  image?: string;
+}
+
+const { title, description, summary, location, subject, image } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} image={image}>
+  <article class="section-block">
+    <div class="container narrow stack-lg">
+      <PhotoStoryHeader title={title} summary={summary} location={location} subject={subject} />
+      <div class="prose-wrap prose">
+        <slot />
+      </div>
+    </div>
+  </article>
+</BaseLayout>

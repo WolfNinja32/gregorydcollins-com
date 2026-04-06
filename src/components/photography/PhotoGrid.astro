@@ -1,0 +1,17 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props {
+  entries: CollectionEntry<'photosets'>[];
+}
+const { entries } = Astro.props;
+---
+
+<div class="card-grid">
+  {entries.map((entry) => (
+    <article class="card stack-sm">
+      <p class="meta">{entry.data.location ?? 'Photography'}</p>
+      <h3><a href={`/photography/${entry.id}/`}>{entry.data.title}</a></h3>
+      <p>{entry.data.summary}</p>
+    </article>
+  ))}
+</div>

@@ -1,0 +1,18 @@
+---
+import { render } from 'astro:content';
+import SectionLayout from '@/layouts/SectionLayout.astro';
+import PhotoGrid from '@/components/photography/PhotoGrid.astro';
+import { getPage, getPublishedPhotosets } from '@/lib/content';
+
+const page = await getPage('photography');
+if (!page) throw new Error('Missing photography page content entry.');
+const entries = await getPublishedPhotosets();
+const { Content } = await render(page);
+---
+
+<SectionLayout title={page.data.seoTitle ?? page.data.title} description={page.data.seoDescription ?? page.data.description} heroTitle={page.data.heroTitle ?? page.data.title} heroSummary={page.data.heroSummary} image={page.data.ogImage}>
+  <div class="stack-lg">
+    <div class="prose-wrap prose"><Content /></div>
+    <PhotoGrid entries={entries} />
+  </div>
+</SectionLayout>

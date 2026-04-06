@@ -1,0 +1,21 @@
+---
+import { render } from 'astro:content';
+import SectionLayout from '@/layouts/SectionLayout.astro';
+import ArticleCard from '@/components/writing/ArticleCard.astro';
+import CardGrid from '@/components/content/CardGrid.astro';
+import { getPage, getPublishedWriting } from '@/lib/content';
+
+const page = await getPage('writing');
+if (!page) throw new Error('Missing writing page content entry.');
+const entries = await getPublishedWriting();
+const { Content } = await render(page);
+---
+
+<SectionLayout title={page.data.seoTitle ?? page.data.title} description={page.data.seoDescription ?? page.data.description} heroTitle={page.data.heroTitle ?? page.data.title} heroSummary={page.data.heroSummary} image={page.data.ogImage}>
+  <div class="stack-lg">
+    <div class="prose-wrap prose"><Content /></div>
+    <CardGrid>
+      {entries.map((entry) => <ArticleCard entry={entry} />)}
+    </CardGrid>
+  </div>
+</SectionLayout>

@@ -1,0 +1,7 @@
+.prose { color: var(--color-text); }
+.prose > * + * { margin-top: 1em; }
+.prose p, .prose li { max-width: 68ch; }
+.prose ul, .prose ol { padding-left: 1.25rem; }
+.prose a { text-underline-offset: 0.15em; }
+.prose h2, .prose h3 { margin-top: 1.75em; }
+.article-meta { color: var(--color-muted); display: grid; gap: var(--space-2); }

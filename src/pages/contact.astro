@@ -1,0 +1,19 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getPage } from '@/lib/content';
+
+const page = await getPage('contact');
+if (!page) throw new Error('Missing contact page content entry.');
+const { Content } = await render(page);
+---
+
+<BaseLayout title={page.data.seoTitle ?? page.data.title} description={page.data.seoDescription ?? page.data.description} image={page.data.ogImage}>
+  <section class="section-block">
+    <div class="container narrow prose-wrap prose">
+      <h1>{page.data.heroTitle ?? page.data.title}</h1>
+      {page.data.heroSummary && <p class="lede">{page.data.heroSummary}</p>}
+      <Content />
+    </div>
+  </section>
+</BaseLayout>

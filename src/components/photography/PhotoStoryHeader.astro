@@ -1,0 +1,17 @@
+---
+interface Props {
+  title: string;
+  summary?: string;
+  location?: string;
+  subject?: string;
+}
+const { title, summary, location, subject } = Astro.props;
+---
+
+<header class="stack-sm">
+  <h1>{title}</h1>
+  {summary && <p class="lede">{summary}</p>}
+  {(location || subject) && (
+    <p class="meta">{[location, subject].filter(Boolean).join(' • ')}</p>
+  )}
+</header>

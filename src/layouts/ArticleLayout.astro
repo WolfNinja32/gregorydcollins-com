@@ -1,0 +1,29 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import ArticleMeta from '@/components/writing/ArticleMeta.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  publishDate?: Date;
+  updatedDate?: Date;
+  tags?: string[];
+  image?: string;
+}
+
+const { title, description, publishDate, updatedDate, tags = [], image } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} image={image}>
+  <article class="section-block">
+    <div class="container narrow prose-wrap">
+      <header class="stack-md">
+        <h1>{title}</h1>
+        <ArticleMeta publishDate={publishDate} updatedDate={updatedDate} tags={tags} />
+      </header>
+      <div class="prose">
+        <slot />
+      </div>
+    </div>
+  </article>
+</BaseLayout>

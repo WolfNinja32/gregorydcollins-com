@@ -1,0 +1,14 @@
+---
+interface Props {
+  publishDate?: Date;
+  updatedDate?: Date;
+  tags?: string[];
+}
+const { publishDate, updatedDate, tags = [] } = Astro.props;
+---
+
+<div class="article-meta">
+  {publishDate && <p>Published: {publishDate.toLocaleDateString()}</p>}
+  {updatedDate && <p>Updated: {updatedDate.toLocaleDateString()}</p>}
+  {tags.length > 0 && <p>Tags: {tags.join(', ')}</p>}
+</div>

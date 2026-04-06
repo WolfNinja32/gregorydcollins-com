@@ -1,0 +1,23 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Hero from '@/components/content/Hero.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  heroTitle?: string;
+  heroSummary?: string;
+  image?: string;
+}
+
+const { title, description, heroTitle, heroSummary, image } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} image={image}>
+  <Hero title={heroTitle ?? title} summary={heroSummary} />
+  <section class="section-block">
+    <div class="container">
+      <slot />
+    </div>
+  </section>
+</BaseLayout>

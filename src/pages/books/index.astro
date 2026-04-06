@@ -1,0 +1,27 @@
+---
+import { render } from 'astro:content';
+import SectionLayout from '@/layouts/SectionLayout.astro';
+import CardGrid from '@/components/content/CardGrid.astro';
+import { getPage, getPublishedBooks } from '@/lib/content';
+
+const page = await getPage('books');
+if (!page) throw new Error('Missing books page content entry.');
+const entries = await getPublishedBooks();
+const { Content } = await render(page);
+---
+
+<SectionLayout title={page.data.seoTitle ?? page.data.title} description={page.data.seoDescription ?? page.data.description} heroTitle={page.data.heroTitle ?? page.data.title} heroSummary={page.data.heroSummary} image={page.data.ogImage}>
+  <div class="stack-lg">
+    <div class="prose-wrap prose"><Content /></div>
+    <CardGrid>
+      {entries.map((entry) => (
+        <article class="card stack-sm">
+          <p class="meta">{entry.data.status}</p>
+          <h3><a href={`/books/${entry.id}/`}>{entry.data.title}</a></h3>
+          {entry.data.subtitle && <p class="muted">{entry.data.subtitle}</p>}
+          <p>{entry.data.summary}</p>
+        </article>
+      ))}
+    </CardGrid>
+  </div>
+</SectionLayout>
