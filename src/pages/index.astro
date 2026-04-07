@@ -1,19 +1,10 @@
 ---
-import { render } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import CardGrid from '@/components/content/CardGrid.astro';
-import CTA from '@/components/content/CTA.astro';
-import ProductCard from '@/components/products/ProductCard.astro';
-import ArticleCard from '@/components/writing/ArticleCard.astro';
-import PhotoGrid from '@/components/photography/PhotoGrid.astro';
-import { getPage, getProductsByLine, getPublishedPhotosets, getPublishedWriting } from '@/lib/content';
+import { getPage } from '@/lib/content';
 
 const page = await getPage('home');
 if (!page) throw new Error('Missing home page content entry.');
-const { Content } = await render(page);
-const writing = (await getPublishedWriting()).slice(0, 3);
-const labProducts = (await getProductsByLine('lab-in-a-box')).slice(0, 2);
-const photosets = (await getPublishedPhotosets()).slice(0, 2);
 ---
 
 <BaseLayout
@@ -21,70 +12,76 @@ const photosets = (await getPublishedPhotosets()).slice(0, 2);
   description={page.data.seoDescription ?? page.data.description}
   image={page.data.ogImage}
 >
-  <section class="hero section-block">
-    <div class="container narrow stack-md">
-      <h1>{page.data.heroTitle ?? page.data.title}</h1>
-      {page.data.heroSummary && <p class="lede">{page.data.heroSummary}</p>}
-    </div>
-  </section>
+<section class="hero hero--photo section-block">
+  <div class="hero__bg" aria-hidden="true"></div>
 
-  <section class="section-block">
-    <div class="container prose-wrap prose">
-      <Content />
-    </div>
-  </section>
+  <div class="container narrow stack-md hero__content">
+    <p class="eyebrow">Gregory Collins</p>
+    <h1>
+      Technology Explorer.<br />
+      Witness to History.<br />
+      Systems Architect.
+    </h1>
+  </div>
+</section>
 
-  <section class="section-block section-alt">
+  <section class="section-block home-directions">
     <div class="container stack-md">
-      <h2>Main areas of work</h2>
+      <h2>A million directions start from here</h2>
       <CardGrid>
-        <a class="card" href="/photography/"><h3>Photography</h3><p>Selected work, stories, and visual projects.</p></a>
-        <a class="card" href="/books/"><h3>Books</h3><p>Current and future books, essays, and related material.</p></a>
-        <a class="card" href="/lab-in-a-box/"><h3>Lab-in-a-Box</h3><p>Practical digital products and systems.</p></a>
-        <a class="card" href="/directorybase/"><h3>DirectoryBase</h3><p>Directory structures, ideas, and implementation patterns.</p></a>
-        <a class="card" href="/writing/"><h3>Writing</h3><p>Essays, notes, and working ideas in public.</p></a>
-        <a class="card" href="/about/"><h3>About</h3><p>Background, credibility, and the thread connecting the work.</p></a>
+        <a class="card" href="/photography/"><h3>Photography</h3><p>Selected work, visual stories, and field notes.</p></a>
+        <a class="card" href="/writing/"><h3>Writing</h3><p>Essays, books, and practical ideas in public.</p></a>
+        <a class="card" href="/lab-in-a-box/"><h3>AI Exploration</h3><p>Practical AI systems, experiments, tools, and structured ideas.</p></a>
+        <a class="card" href="/intellectual-property/"><h3>INTELLECTUAL PROPERTY</h3><p>Patents, papers, and foundational technical work.</p></a>
       </CardGrid>
-    </div>
-  </section>
-
-  <section class="section-block">
-    <div class="container stack-md">
-      <div class="split-heading">
-        <h2>Featured writing</h2>
-        <a href="/writing/">See all writing</a>
-      </div>
-      <CardGrid>
-        {writing.map((entry) => <ArticleCard entry={entry} />)}
-      </CardGrid>
-    </div>
-  </section>
-
-  <section class="section-block section-alt">
-    <div class="container stack-md">
-      <div class="split-heading">
-        <h2>Featured products</h2>
-        <a href="/lab-in-a-box/">See Lab-in-a-Box</a>
-      </div>
-      <CardGrid>
-        {labProducts.map((entry) => <ProductCard entry={entry} />)}
-      </CardGrid>
-    </div>
-  </section>
-
-  <section class="section-block">
-    <div class="container stack-md">
-      <div class="split-heading">
-        <h2>Featured photography</h2>
-        <a href="/photography/">See photography</a>
-      </div>
-      <PhotoGrid entries={photosets} />
-    </div>
-  </section>
-
-  <section class="section-block">
-    <div class="container narrow">
-      <CTA title="Start a conversation" body="The contact section is intentionally simple in v1. Reach out for photography, product, or consulting conversations." href="/contact/" label="Contact Gregory" />
     </div>
   </section>
 </BaseLayout>
+<style>
+  .hero--photo {
+    position: relative;
+    overflow: hidden;
+    min-height: clamp(380px, 54vh, 640px);
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border);
+    background: #f5f5f3;
+  }
+
+  .hero--photo .hero__bg {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(10, 12, 18, 0.52),
+        rgba(10, 12, 18, 0.58)
+      ),
+      linear-gradient(
+        to right,
+        rgba(10, 12, 18, 0.20),
+        rgba(10, 12, 18, 0.08)
+      ),
+      url('/images/home/hero-acacia.jpg') center 80% / cover no-repeat;
+    filter: saturate(0.78) contrast(0.88) brightness(0.78);
+    transform: scale(1.01);
+  }
+
+  .hero--photo .hero__content {
+    position: relative;
+    z-index: 1;
+    padding-top: clamp(4rem, 8vw, 7rem);
+    padding-bottom: clamp(4rem, 10vw, 8rem);
+  }
+
+  .hero--photo .eyebrow {
+    color: rgba(255, 255, 255, 0.82);
+    letter-spacing: 0.14em;
+  }
+
+  .hero--photo h1 {
+  color: #ffffff;
+  max-width: 15ch;
+  text-wrap: balance;
+}
+</style>
